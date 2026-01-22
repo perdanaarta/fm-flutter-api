@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../api/gnews_client.dart';
 import 'news_card.dart';
 import 'settings_page.dart';
+import 'saved_news_page.dart';
 import '../models/news_article.dart';
 
 class NewsPage extends StatefulWidget {
@@ -103,6 +104,17 @@ class _NewsPageState extends State<NewsPage> {
       appBar: AppBar(
         title: const Text('Berita'),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.bookmark),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SavedNewsPage(),
+                ),
+              );
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {

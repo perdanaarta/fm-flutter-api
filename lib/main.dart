@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'pages/news_page.dart';
+import 'services/saved_news_service.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SavedNewsService.initialize();
   runApp(const App());
 }
 
