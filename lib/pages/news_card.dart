@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/news_article.dart';
+import 'webview_page.dart';
 
 class NewsCard extends StatelessWidget {
   final NewsArticle article;
@@ -17,7 +18,19 @@ class NewsCard extends StatelessWidget {
         ? ''
         : formatter.format(article.publishedAt!.toLocal());
 
-    return ListTile(
+    return GestureDetector(
+      onTap: article.url != null
+          ? () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => WebViewPage(
+                    url: article.url!,
+                    title: article.title ?? 'News',
+                  ),
+                ),
+              )
+          : null,
+      child: ListTile(
       trailing: article.image == null
           ? const Icon(Icons.article)
           : Image.network(
@@ -48,6 +61,7 @@ class NewsCard extends StatelessWidget {
             ].where((e) => e.isNotEmpty).join(' - '),
           ),
         ],
+      ),
       ),
     );
   }
