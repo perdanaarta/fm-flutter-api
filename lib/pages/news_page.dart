@@ -70,14 +70,31 @@ class _NewsPageState extends State<NewsPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (loading) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
-    }
-
     if (error != null) {
       return Scaffold(
+        appBar: AppBar(
+          title: const Text('Berita'),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.settings),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SettingsPage(
+                      currentThemeMode: Theme.of(context).brightness == Brightness.dark
+                          ? ThemeMode.dark
+                          : ThemeMode.light,
+                      onThemeChanged: (themeMode) {
+                        widget.onThemeChanged?.call(themeMode);
+                      },
+                    ),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
         body: Center(child: Text(error!)),
       );
     }
@@ -131,14 +148,12 @@ class _NewsPageState extends State<NewsPage> {
           Expanded(
             child: loading
                 ? const Center(child: CircularProgressIndicator())
-                : error != null
-                    ? Center(child: Text(error!))
-                    : ListView.builder(
-                        itemCount: articles.length,
-                        itemBuilder: (_, i) {
-                          return NewsCard(article: articles[i]);
-                        },
-                      ),
+                : ListView.builder(
+                    itemCount: articles.length,
+                    itemBuilder: (_, i) {
+                      return NewsCard(article: articles[i]);
+                    },
+                  ),
           ),
         ],
       ),
